@@ -1,0 +1,18 @@
+node_modules/
+dist/
+release/
+*.log
+.env
+
+# Shared user files
+shared/*
+
+# Electron builds
+dist/
+release/
+
+# Build tools binaries
+build/tools/*.exe
+
+# Logs
+*.log

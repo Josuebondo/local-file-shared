@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#2563eb" />
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <title>Local File Shared</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,400,0,0"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Navigation">
+        <a class="sidebar-brand" href="/app" aria-label="Local File Shared">
+          <img class="brand-mark" src="localshare_icon.png" alt="" />
+          <span>LocalShare</span>
+        </a>
+        <nav class="sidebar-nav">
+          <a class="nav-item active" href="/app" title="Fichiers">
+            <span class="material-symbols-outlined">folder_open</span
+            ><span>Fichiers</span>
+          </a>
+          <a class="nav-item" href="/" title="Serveurs du réseau">
+            <span class="material-symbols-outlined">lan</span
+            ><span>Réseau</span>
+          </a>
+          <a
+            class="nav-item"
+            id="settings-link"
+            href="/desktop"
+            title="Paramètres du serveur"
+          >
+            <span class="material-symbols-outlined">settings</span
+            ><span>Paramètres</span>
+          </a>
+        </nav>
+        <div class="sidebar-footer">
+          <span class="online-dot"></span> Serveur local
+        </div>
+      </aside>
+
+      <div class="workspace">
+        <header class="topbar">
+          <div class="mobile-brand">
+            <img class="brand-mark" src="localshare_icon.png" alt="" />
+            LocalShare
+          </div>
+          <div class="search-wrapper">
+            <span class="material-symbols-outlined">search</span>
+            <input
+              id="searchInput"
+              type="search"
+              placeholder="Rechercher dans ce dossier…"
+              autocomplete="off"
+            />
+            <kbd>⌘ K</kbd>
+          </div>
+          <div class="top-actions">
+            <button
+              id="refreshButton"
+              class="icon-button"
+              type="button"
+              aria-label="Actualiser"
+              data-tooltip="Actualiser"
+            >
+              <span class="material-symbols-outlined">refresh</span>
+            </button>
+            <button
+              id="themeToggle"
+              class="icon-button"
+              type="button"
+              aria-label="Activer le mode sombre"
+              data-tooltip="Mode sombre"
+            >
+              <span class="material-symbols-outlined">dark_mode</span>
+            </button>
+            <a
+              class="icon-button"
+              href="/desktop"
+              aria-label="Paramètres"
+              data-tooltip="Paramètres"
+            >
+              <span class="material-symbols-outlined">settings</span>
+            </a>
+          </div>
+        </header>
+
+        <main>
+          <section class="page-heading">
+            <div>
+              <span class="eyebrow">Espace partagé</span>
+              <h1>Vos fichiers, simplement.</h1>
+              <p>
+                Ajoutez, organisez et partagez vos fichiers sur le réseau local.
+              </p>
+            </div>
+            <div class="heading-actions">
+              <button
+                id="createFolderButton"
+                class="button secondary"
+                type="button"
+                title="Nouveau dossier"
+              >
+                <span class="material-symbols-outlined">create_new_folder</span
+                ><span>Nouveau dossier</span>
+              </button>
+              <button
+                id="selectButton"
+                class="button primary"
+                type="button"
+                title="Importer des fichiers"
+              >
+                <span class="material-symbols-outlined">upload</span
+                ><span>Importer</span>
+              </button>
+            </div>
+          </section>
+
+          <section class="upload-card" aria-label="Importation de fichiers">
+            <div
+              id="dropzone"
+              class="dropzone"
+              tabindex="0"
+              role="button"
+              aria-label="Choisir des fichiers ou les déposer ici"
+            >
+              <div class="drop-icon">
+                <span class="material-symbols-outlined">cloud_upload</span>
+              </div>
+              <div>
+                <strong>Déposez vos fichiers ici</strong
+                ><span>ou cliquez pour les sélectionner</span>
+              </div>
+              <input id="fileInput" type="file" multiple hidden />
+            </div>
+            <div class="upload-status">
+              <div id="status" class="status" role="status" aria-live="polite">
+                Prêt à recevoir vos fichiers.
+              </div>
+              <div
+                class="progress-bar"
+                id="progressBar"
+                aria-label="Progression de l’importation"
+              >
+                <div class="progress-fill" id="progressFill"></div>
+              </div>
+            </div>
+          </section>
+
+          <section class="browser-panel">
+            <div class="browser-toolbar">
+              <div
+                class="breadcrumbs"
+                id="breadcrumbs"
+                aria-label="Chemin actuel"
+              ></div>
+              <div class="toolbar-actions">
+                <button
+                  id="parentButton"
+                  class="icon-button"
+                  type="button"
+                  aria-label="Dossier parent"
+                  data-tooltip="Dossier parent"
+                >
+                  <span class="material-symbols-outlined"
+                    >drive_folder_upload</span
+                  >
+                </button>
+                <button
+                  id="pasteButton"
+                  class="icon-button"
+                  type="button"
+                  aria-label="Coller"
+                  data-tooltip="Coller"
+                  disabled
+                >
+                  <span class="material-symbols-outlined">content_paste</span>
+                </button>
+              </div>
+            </div>
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Aperçu</th>
+                    <th>Nom</th>
+                    <th>Type</th>
+                    <th>Taille</th>
+                    <th>Modifié</th>
+                    <th><span class="sr-only">Actions</span></th>
+                  </tr>
+                </thead>
+                <tbody id="fileList"></tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="share-card">
+            <div class="share-icon">
+              <span class="material-symbols-outlined">qr_code_2</span>
+            </div>
+            <div class="share-details">
+              <span class="eyebrow">Accès direct</span>
+              <h2>Partagez ce dossier en un instant</h2>
+              <p id="shareUrl">—</p>
+            </div>
+            <button
+              id="copyCurrentLink"
+              class="icon-button"
+              type="button"
+              aria-label="Copier le lien du dossier"
+              data-tooltip="Copier le lien"
+            >
+              <span class="material-symbols-outlined">link</span>
+            </button>
+            <div class="qr-wrapper">
+              <img id="qrCodeImage" alt="QR Code du dossier actuel" />
+            </div>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <div id="contextMenu" class="context-menu" aria-hidden="true">
+      <button type="button" data-action="open">
+        <span class="material-symbols-outlined">open_in_new</span
+        ><span>Ouvrir</span>
+      </button>
+      <button type="button" data-action="download" data-scope="file">
+        <span class="material-symbols-outlined">download</span
+        ><span>Télécharger</span>
+      </button>
+      <button type="button" data-action="preview" data-scope="file">
+        <span class="material-symbols-outlined">visibility</span
+        ><span>Prévisualiser</span>
+      </button>
+      <button type="button" data-action="newFolder" data-scope="folder">
+        <span class="material-symbols-outlined">create_new_folder</span
+        ><span>Nouveau dossier</span>
+      </button>
+      <button type="button" data-action="rename">
+        <span class="material-symbols-outlined">drive_file_rename_outline</span
+        ><span>Renommer</span>
+      </button>
+      <button type="button" data-action="copy">
+        <span class="material-symbols-outlined">content_copy</span
+        ><span>Copier</span>
+      </button>
+      <button type="button" data-action="cut">
+        <span class="material-symbols-outlined">content_cut</span
+        ><span>Couper</span>
+      </button>
+      <button type="button" data-action="paste">
+        <span class="material-symbols-outlined">content_paste</span
+        ><span>Coller</span>
+      </button>
+      <button type="button" data-action="copyLink">
+        <span class="material-symbols-outlined">link</span
+        ><span>Copier le lien</span>
+      </button>
+      <button type="button" data-action="qrcode">
+        <span class="material-symbols-outlined">qr_code_2</span
+        ><span>Générer un QR Code</span>
+      </button>
+      <button type="button" data-action="protect">
+        <span class="material-symbols-outlined">lock</span><span>Protéger</span>
+      </button>
+      <button type="button" class="danger" data-action="delete">
+        <span class="material-symbols-outlined">delete</span
+        ><span>Supprimer</span>
+      </button>
+    </div>
+
+    <div class="modal" id="previewModal" aria-hidden="true">
+      <div class="modal-backdrop" data-close="true"></div>
+      <div
+        class="modal-panel"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="previewTitle"
+      >
+        <div class="modal-header">
+          <h3 id="previewTitle">Prévisualisation</h3>
+          <button
+            type="button"
+            class="icon-button"
+            id="previewClose"
+            aria-label="Fermer"
+            data-tooltip="Fermer"
+          >
+            <span class="material-symbols-outlined">close</span>
+          </button>
+        </div>
+        <div class="modal-content" id="previewContent"></div>
+        <div class="modal-footer" id="previewFooter"></div>
+      </div>
+    </div>
+    <div class="modal" id="qrModal" aria-hidden="true">
+      <div class="modal-backdrop" data-qr-close="true"></div>
+      <div
+        class="modal-panel qr-modal-panel"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="qrTitle"
+      >
+        <div class="modal-header">
+          <h3 id="qrTitle">QR Code</h3>
+          <button
+            type="button"
+            class="icon-button"
+            id="qrClose"
+            aria-label="Fermer"
+          >
+            <span class="material-symbols-outlined">close</span>
+          </button>
+        </div>
+        <div class="modal-content qr-modal-content">
+          <img id="qrModalImage" alt="QR Code de partage" />
+          <p id="qrModalLink"></p>
+        </div>
+        <div class="modal-footer qr-actions">
+          <button id="qrCopyLink" class="button secondary" type="button">
+            <span class="material-symbols-outlined">link</span>Copier le lien</button
+          ><a
+            id="qrDownload"
+            class="button secondary"
+            download="localshare-qr.png"
+            ><span class="material-symbols-outlined">download</span
+            >Télécharger</a
+          ><button id="qrPrint" class="button primary" type="button">
+            <span class="material-symbols-outlined">print</span>Imprimer
+          </button>
+        </div>
+      </div>
+    </div>
+    <script src="app.js"></script>
+  </body>
+</html>

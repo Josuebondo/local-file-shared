@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Local File Shared - Desktop</title>
+    <link rel="stylesheet" href="/style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="desktop-body">
+    <main class="desktop-panel">
+      <section class="desktop-card">
+        <div class="desktop-header">
+          <div>
+            <span class="eyebrow">Tableau de bord</span>
+            <h1>Votre serveur local</h1>
+            <p>
+              Gérez votre serveur de partage local et connectez vos appareils
+              sans installation côté client.
+            </p>
+          </div><button id="desktopThemeToggle" class="icon-button" type="button" aria-label="Changer de thème" data-tooltip="Mode sombre"><span class="material-symbols-outlined">dark_mode</span></button>
+        </div>
+
+        <div id="serverPanel" class="server-panel hidden">
+          <div class="server-grid">
+            <div class="server-card info-card">
+              <h2>Informations serveur</h2>
+              <dl>
+                <dt>Nom</dt>
+                <dd id="infoName">–</dd>
+                <dt>Description</dt>
+                <dd id="infoDescription">–</dd>
+                <dt>État</dt>
+                <dd id="infoStatus">–</dd>
+                <dt>Adresse</dt>
+                <dd id="infoAddress">–</dd>
+                <dt>Port</dt>
+                <dd id="infoPort">–</dd>
+                <dt>URL</dt>
+                <dd><a id="infoUrl" href="#" target="_blank">–</a></dd>
+              </dl>
+            </div>
+            <div class="server-card qr-card">
+              <h2>QR Code</h2>
+              <div class="qr-box">
+                <img id="qrCodeImage" alt="QR Code du serveur" />
+              </div>
+              <p class="small-note">
+                Scannez depuis un mobile pour ouvrir l'application web.
+              </p>
+            </div>
+          </div>
+
+          <div class="desktop-actions">
+            <button
+              type="button"
+              id="openAppButton"
+              class="icon-button primary"
+              title="Ouvrir l'application web"
+            >
+              <span class="material-symbols-outlined">open_in_new</span>
+            </button>
+            <button
+              type="button"
+              id="openFolderButton"
+              class="icon-button"
+              title="Ouvrir le dossier partagé"
+            >
+              <span class="material-symbols-outlined">folder_open</span>
+            </button>
+            <button
+              type="button"
+              id="restartButton"
+              class="icon-button"
+              title="Redémarrer le serveur"
+            >
+              <span class="material-symbols-outlined">restart_alt</span>
+            </button>
+            <button
+              type="button"
+              id="stopButton"
+              class="icon-button danger"
+              title="Arrêter le serveur"
+            >
+              <span class="material-symbols-outlined">power_settings_new</span>
+            </button>
+            <button
+              type="button"
+              id="editConfigButton"
+              class="icon-button"
+              title="Modifier la configuration"
+            >
+              <span class="material-symbols-outlined">settings</span>
+            </button>
+          </div>
+        </div>
+
+        <div id="configPanel" class="desktop-form-panel">
+          <form id="setupForm" class="desktop-form">
+            <div class="form-grid">
+              <label>
+                Nom du serveur <span class="required">*</span>
+                <input type="text" id="serverName" required />
+              </label>
+              <label>
+                Description
+                <input type="text" id="serverDescription" />
+              </label>
+              <label>
+                Port
+                <input
+                  type="number"
+                  id="serverPort"
+                  min="1024"
+                  max="65535"
+                  value="3000"
+                />
+              </label>
+              <label>
+                Dossier partagé
+                <div class="folder-select">
+                  <input type="text" id="sharedFolder" readonly />
+                  <button type="button" id="chooseFolder">Sélectionner</button>
+                </div>
+              </label>
+              <label class="full-width checkbox-label">
+                <input type="checkbox" id="createFolder" checked />
+                Créer automatiquement un dossier partagé local
+              </label>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="primary-button">Enregistrer</button>
+              <button
+                type="button"
+                id="cancelEditButton"
+                class="secondary-button"
+              >
+                Annuler
+              </button>
+            </div>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <script src="/desktop.js"></script>
+  </body>
+</html>
